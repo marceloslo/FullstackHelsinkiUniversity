@@ -15,7 +15,7 @@ const StatisticLine = ({text,value}) =>{
 
 const Statistics = ({good,neutral,bad}) =>{
   const sum = good+bad+neutral
-  if(sum==0){
+  if(sum===0){
     return (
       <>
       <h2>Statistics</h2>
