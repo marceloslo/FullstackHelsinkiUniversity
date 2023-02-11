@@ -10,10 +10,12 @@ const blogSchema = new mongoose.Schema({
       type : String,
       required : true
     },
+    user:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    },
     likes: Number
   })
-
-const Blog = mongoose.model('Blog', blogSchema)
 
 blogSchema.set('toJSON', {
   transform: (document, returnedObject) => {
@@ -21,5 +23,7 @@ blogSchema.set('toJSON', {
     delete returnedObject._id
   }
 })
+
+const Blog = mongoose.model('Blog', blogSchema)
 
 module.exports = Blog
