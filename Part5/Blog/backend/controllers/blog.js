@@ -7,6 +7,11 @@ blogRouter.get('/', async (request, response) => {
     const blogs = await Blog.find({}).populate('user')
     response.json(blogs)
 })
+
+blogRouter.get('/:id', async (request, response) => {
+    const blog = await Blog.findById(request.params.id).populate('user')
+    response.json(blog)
+})
   
 blogRouter.post('/',middleware.userExtractor, async (request, response) => {
     let newBlog = request.body
@@ -40,7 +45,7 @@ blogRouter.delete('/:id',middleware.userExtractor,async (request,response) => {
 
 })
 
-blogRouter.put('/:id',middleware.userExtractor,async (request,response) => {
+blogRouter.put('/:id',async (request,response) => {
     const updated = await Blog.findByIdAndUpdate(request.params.id,request.body,{"new" : true,"runValidators":true})
     response.json(updated)
 })

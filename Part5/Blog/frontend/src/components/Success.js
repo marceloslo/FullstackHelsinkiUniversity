@@ -1,14 +1,18 @@
-
-const Success = ({ message }) => {
-  if (message === null) {
+import PropTypes from 'prop-types'
+const Success = ({ message}) => { 
+  if (message === null) { 
     return null
-  }
-  console.log(message)
+ }
+
   return (
-      <div className="success">
-        {message}
+      <div className='success'>
+        { message}
       </div>
   )
+}
+
+Success.propTypes = { 
+  message: PropTypes.string
 }
 
 export default Success

@@ -1,12 +1,12 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN0dWRlbnQiLCJpZCI6IjYzZWU2NDFmMzJhZmM2MWJhNGJmMDU3ZiIsImlhdCI6MTY3NjU2NzU5MX0.BZGox6CqknueBvImnqSRMCH939uTIqP4z-8CNlJ3cOs
 
 {
-    "title": "Meu blogo",
-    "author": "Eu msm",
-    "url": "blog.blog.bnlog",
-    "likes": 20033
+    "title": "Student Blog",
+    "author": "Student Da silva",
+    "url": "astudentblog.blogspot",
+    "likes": 2
 }
 ###
 GET http://localhost:3003/api/blogs
@@ -15,19 +15,30 @@ POST http://localhost:3003/api/users
 Content-Type: application/json
 
 {
-    "username" : "root",
+    "username" : "student",
     "password" : "1234",
-    "name" : "M S L"
+    "name" : "student"
 }
 ###
 POST http://localhost:3003/api/login
 Content-Type: application/json
 
 {
-    "username" : "msloslo",
-    "password" : "2345678",
-    "name" : "M S L"
+    "username" : "student",
+    "password" : "1234",
+    "name" : "student"
 }
 ###
 DELETE http://localhost:3003/api/blogs/63e79ec1a62016cd508d60a2
 Authorization: Bearer 
+###
+PUT  http://localhost:3003/api/blogs/63e7d636db1b4b8881f6e683
+Content-Type: application/json
+Authorization: Bearer 
+
+{
+    "title": "Meu blogo",
+    "author": "Eu msm",
+    "url": "blog.blog.bnlog",
+    "likes": 20034
+}
