@@ -15,9 +15,9 @@ POST http://localhost:3003/api/users
 Content-Type: application/json
 
 {
-    "username" : "student",
+    "username" : "root",
     "password" : "1234",
-    "name" : "student"
+    "name" : "M S L"
 }
 ###
 POST http://localhost:3003/api/login
@@ -42,3 +42,5 @@ Authorization: Bearer
     "url": "blog.blog.bnlog",
     "likes": 20034
 }
+###
+POST http://localhost:3003/api/testing/reset

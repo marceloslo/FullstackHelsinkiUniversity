@@ -8,7 +8,11 @@ const Blog = ({blog, user, increaseLikes, handleDeletion}) => {
   const showInformation = visible ? { display:''} : { display:'none'}
   const hideInformation = visible ? { display:'none'} : { display:''} 
 
-  const isCreator = (user.username === blog.user.username) ? { display:''} : { display:'none'}
+  console.log(blog.user)
+  let isCreator = { display:'none'}
+  if(user.username){
+    isCreator=(user.username === blog.user.username) ? { display:''} : { display:'none'}
+  }
 
   const blogStyle = { 
     paddingTop: 10,
