@@ -52,6 +52,49 @@ const App = () => {
    }
  }
 
+  const increaseLikes = async ({blog,setBlog}) => { 
+    try{ 
+      const updatedBlog = { 'id':blog.id,'title':blog.title,'url':blog.url,'likes':blog.likes+1,'author':blog.author,'user':blog.user.id}
+      const response = await blogService.update(updatedBlog)
+      setBlog({ ...response,'user':blog.user})
+      setBlogs(blogs.map(b => (b.id===blog.id ? { ...response,'user':blog.user} : b)).sort((a,b) => b.likes-a.likes))
+    }
+    catch(exception){ 
+      console.log(exception)
+    }
+  }
+
+  const handleDeletion = async (blog) => { 
+    try{ 
+      const confirm = window.confirm(`Remove blog ${ blog.title}?`)
+      if(confirm){ 
+        await blogService.remove(blog.id)
+
+        setBlogs(blogs.filter(b => b.id!==blog.id))
+    }
+  }
+    catch(exception){ 
+      console.log(exception)
+  }
+  }
+
+  const createBlog = async ({title,author,url}) => { 
+    try{ 
+      const response = await blogService.create({ title,author,url})
+      const newBlog = { ...response,'user':user}
+      setBlogs(blogs.concat(newBlog))
+      setSuccessMessage(`a new blog ${ response.title} by ${ author} added`)
+      setTimeout(() => { 
+        setSuccessMessage(null)
+    }, 5000)
+  } catch (exception) { 
+      console.log(exception)
+      setErrorMessage('Failed to add blog, check if all fields are filled')
+      setTimeout(() => { 
+        setErrorMessage(null)
+    }, 5000)
+  }
+  }
 
   //login components
   const LoginInfo = () => { 
@@ -94,16 +137,16 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
-      <Error message={ errorMessage}/>
-      <Success message={ successMessage}/>
+      <Error message={errorMessage}/>
+      <Success message={successMessage}/>
       <LoginInfo/>
-      <Togglable buttonLabel='create note' ref={ blogFormRef}>
+      <Togglable buttonLabel='create note' ref={blogFormRef}>
         <h2>create new</h2>
-        <PostBlog blogs={ blogs} setBlogs={ setBlogs} setErrorMessage={ setErrorMessage} setSuccessMessage={ setSuccessMessage} user={ user} blogFormRef={ blogFormRef}/>
+        <PostBlog createBlog={createBlog} blogFormRef={blogFormRef}/>
       </Togglable>
       { 
         blogs.map(blog => 
-        <Blog key={ blog.id} blog={ blog} blogs={ blogs} setBlogs={ setBlogs} user={ user}/>
+        <Blog key={blog.id} blog={blog} increaseLikes={increaseLikes} handleDeletion={handleDeletion} user={user}/>
       )}
 
     </div>

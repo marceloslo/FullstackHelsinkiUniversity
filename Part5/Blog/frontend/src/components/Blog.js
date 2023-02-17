@@ -1,7 +1,7 @@
 import { useState} from 'react'
-import blogService from '../services/blogs'
+//import blogService from '../services/blogs'
 
-const Blog = ({ blog,blogs,setBlogs,user}) => { 
+const Blog = ({blog, user, increaseLikes, handleDeletion}) => { 
   const [visible,setVisible] = useState(false)
   const [blogToDisplay,setBlog] = useState(blog)
 
@@ -18,42 +18,16 @@ const Blog = ({ blog,blogs,setBlogs,user}) => {
     marginBottom: 5
  }
 
-  const increaseLikes = async () => { 
-    try{ 
-      const updatedBlog = { 'id':blogToDisplay.id,'title':blogToDisplay.title,'url':blogToDisplay.url,'likes':blogToDisplay.likes+1,'author':blogToDisplay.author,'user':blogToDisplay.user.id}
-      const response = await blogService.update(updatedBlog)
-      setBlog({ ...response,'user':blog.user})
-      setBlogs(blogs.map(b => (b.id===blog.id ? { ...response,'user':blog.user} : b)).sort((a,b) => b.likes-a.likes))
-   }
-    catch(exception){ 
-      console.log(exception)
-   }
- }
-
-  const handleDeletion = async () => { 
-    try{ 
-      const confirm = window.confirm(`Remove blog ${ blog.title}?`)
-      if(confirm){ 
-        const response = await blogService.remove(blog.id)
-
-        setBlogs(blogs.filter(b => b.id!==blog.id))
-     }
-   }
-    catch(exception){ 
-      console.log(exception)
-   }
- }
-
   return (
-  <div style={ blogStyle}>
-    { blogToDisplay.title} { blogToDisplay.author} 
-    <button style={ hideInformation} onClick={ () => setVisible(true)}>view</button>
-    <button style={ showInformation} onClick={ () => setVisible(false)}>hide</button>
-    <div style={ showInformation}>
-      <div>{ blogToDisplay.url}</div>
-      <div>likes { blogToDisplay.likes} <button onClick={ increaseLikes}>like</button></div>
-      <div>{ blogToDisplay.user.name}</div>
-      <div><button style={ isCreator} onClick={ handleDeletion}>delete</button></div>
+  <div style={blogStyle} className='blog'>
+    {blogToDisplay.title} { blogToDisplay.author} 
+    <button style={hideInformation} onClick={ () => setVisible(true)}>view</button>
+    <button style={showInformation} onClick={ () => setVisible(false)}>hide</button>
+    <div style={showInformation} className='info'>
+      <div>{blogToDisplay.url}</div>
+      <div>likes {blogToDisplay.likes} <button onClick={() => increaseLikes({blog,setBlog})}>like</button></div>
+      <div>{blogToDisplay.user.name}</div>
+      <div><button style={isCreator} onClick={() => handleDeletion(blog)}>delete</button></div>
     </div>
   </div> 
   )
